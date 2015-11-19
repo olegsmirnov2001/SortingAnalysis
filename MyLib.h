@@ -2,6 +2,14 @@
 /////////////////////////////////////////////////¡»¡À»Œ“≈ ¿ —Ã»–ÕŒ¬¿ ŒÀ≈√¿////////////////////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <AllColors.h>
+
+//{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////DEFINES////////////////////////////////////////////////////////////////////
+//}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define KEY char
+
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////// À¿——€////////////////////////////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,9 +28,14 @@ class vect_t
         y (Ay)
         {}
 
-    vect_t (vect_t A) :
-        x (A.x),
-        y (A.y)
+    vect_t (vect_t vect) :
+        x (vect.x),
+        y (vect.y)
+        {}
+
+    vect_t (POINT vect) :
+        x (vect.x),
+        y (vect.y)
         {}
 
     vect_t& operator + (vect_t vect)
@@ -103,6 +116,13 @@ class rect_t
         y2 (rect.y2)
         {}
 
+    rect_ty (RECT rect) :
+        x1 (rect.left),
+        y1 (rect.top),
+        x2 (rect.right),
+        y2 (rect.bottom)
+        {}
+
     rect_t& operator + (double x, double y)
         {
         return rect_t (x1 + x, y1 + y, x2 + x, y2 + x);
@@ -118,13 +138,15 @@ class rect_t
 /////////////////////////////////////////////////////////// ŒÕ—“¿Õ“€//////////////////////////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const xy_t Window (GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN));
+const vect_t Window (GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN));
 
 const int LongText = 200;
 const int LongBigText = 2000;
 const int LongBigBigText = 20000;
 
 const double PI = 3.1415926535;
+
+const KEY
 
 const int Nothing = -666;
 
@@ -150,31 +172,80 @@ double Dist (double x1, double x2, double y1, double y2)
     return (Dist (vect_t (x1, y1), vect_t (x2, y2)));
     }
 
-bool Inside ()
+bool Inside (rect_t area, vect_t point)
+    {
+    return ((point.x >= area.x1) && (point.x < area.y1) && (point.y >= area.y1) && (point.y < area.y2))
+    }
+
+bool SetColors (COLORREF color)
+    {
+    txSetColor (color);
+    txSetFillColor (color);
+
+    return true;
+    }
+
+bool SetColors (COLORREF colorLines, COLORREF colorFill)
+    {
+    txSetColor (colorLines);
+    txSetFillColor (colorFill);
+
+    return true;
+    }
+
+bool SetColors (double thinknessLines, COLORREF colorLines, COLORREF colorFill)
+    {
+    txSetColor (colorLines, thinknessLines);
+    txSetFillColor (colorFill);
+
+    return true;
+    }
+
+bool DrawRect (rect_t rect)
+    {
+    txRectangle (rect.x1, rect.y1, rect.x2, rect.y2);
+    }
+
+bool DrawRect (double x1, double y1, double x2, double y2)
+    {
+    return DrawRect (rect_t (x1, y1, x2, y2));
+    }
+
+bool Exit (vect_t window)
+    {
+    const double sizeCross = 25;
+    const double thinknessCross = 5;
+
+    SetColors (thinknessCross, _RED, _NULL);
+    DrawRect (window.x - sizeCross - thinknessCross / 2,
+                                     thinknessCross / 2,
+              window.x             - thinknessCross / 2,
+              sizeCross            + thinknessCross / 2);
+
+    return ((() && ()) || (GetAsyncKeyState ()));
+    }
 
 
 
 
 
-
-
-//{ ÔÂ‰˚‰Û˘‡ˇ ·Ë·ÎËÓÚÂÍ‡
+/* ÔÂ‰˚‰Û˘‡ˇ ·Ë·ÎËÓÚÂÍ‡
 
 //{/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////ÃŒ» ‘”Õ ÷»»//////////////////////////////////////////////////////////////////////
 //}/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-double Dist (xy_t xy1, xy_t xy2)
+double Dist (xy_t xy1, xy_t xy2)           //+
     {
     return sqrt ((xy1.x - xy2.x) * (xy1.x - xy2.x) + (xy1.y - xy2.y) * (xy1.y - xy2.y));
     }
 
-double Dist (double x1, double y1, double x2, double y2)
+double Dist (double x1, double y1, double x2, double y2)          //+
     {
     return sqrt ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-void CreateMyWindow (xy_t window)
+void CreateMyWindow (xy_t window)           //+
     {
     _txWindowStyle &= ~ WS_CAPTION;
     txTextCursor (false);
@@ -182,7 +253,7 @@ void CreateMyWindow (xy_t window)
     txCreateWindow (window.x, window.y);
     }
 
-void DrawGrid (rect_t area, int amountGor, int amountVer)
+void DrawGrid (rect_t area, int amountGor, int amountVer)         //don't want
     {
     double betweenGor = (area.y2 - area.y1) / amountGor;
     double betweenVer = (area.x2 - area.x1) / amountVer;
@@ -194,7 +265,7 @@ void DrawGrid (rect_t area, int amountGor, int amountVer)
         txLine (area.x1 + betweenVer * number, area.y1, area.x1 + betweenVer * number, area.y2);
     }
 
-void DrawGrid (rect_t area, const int amountGor, const int amountVer, char text [][LongText])
+void DrawGrid (rect_t area, const int amountGor, const int amountVer, char text [][LongText])        //don't want
     {
     DrawGrid (area, amountGor, amountVer);
 
@@ -213,7 +284,7 @@ void DrawGrid (rect_t area, const int amountGor, const int amountVer, char text 
         }
     }
 
-bool Inside (rect_t rect, xy_t point)
+bool Inside (rect_t rect, xy_t point)        //+
     {
     if ((point.x >= rect.x1) && (point.x <= rect.x2) && (point.y >= rect.y1) && (point.y <= rect.y1))
         return true;
@@ -339,4 +410,17 @@ double LengthVect (xy_t vect)
 ////////////////////////////////////////////////////////////////ﬂ  Œ“///////////////////////////////////////////////////////////////////////
 //}//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+

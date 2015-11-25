@@ -140,15 +140,17 @@ class rect_t
 
 const vect_t Window (GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN));
 
-const int LongText = 200;
-const int LongBigText = 2000;
-const int LongBigBigText = 20000;
+const int LengthText = 200;
+const int LengthBigText = 2000;
+const int LengthBigBigText = 20000;
 
 const double PI = 3.1415926535;
 
-const KEY
-
 const int Nothing = -666;
+
+//
+
+const KEY KeyEndWork = VK_ESCAPE;
 
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////ФУНКЦИИ////////////////////////////////////////////////////////////////////
@@ -160,6 +162,17 @@ bool CreateMyWindow (vect_t window)
     txTextCursor (false);
 
     txCreateWindow (window.x, window.y);
+    }
+
+bool Clear (COLORREF color = _BLACK)
+    {
+    txSetFillColor (color);
+    txClear ();
+
+    if (color == _RED)
+        txSleep (127);
+
+    return true;
     }
 
 double Dist (vect_t point1, vect_t point2)
@@ -175,6 +188,11 @@ double Dist (double x1, double x2, double y1, double y2)
 bool Inside (rect_t area, vect_t point)
     {
     return ((point.x >= area.x1) && (point.x < area.y1) && (point.y >= area.y1) && (point.y < area.y2))
+    }
+
+bool Inside (rect_t area, POINT point)
+    {
+    return (Inside (area, vect_t (point)));
     }
 
 bool SetColors (COLORREF color)
@@ -217,17 +235,87 @@ bool Exit (vect_t window)
     const double thinknessCross = 5;
 
     SetColors (thinknessCross, _RED, _NULL);
-    DrawRect (window.x - sizeCross - thinknessCross / 2,
-                                     thinknessCross / 2,
-              window.x             - thinknessCross / 2,
-              sizeCross            + thinknessCross / 2);
+    rect_t cross (window.x - sizeCross - thinknessCross / 2,
+                                         thinknessCross / 2,
+                  window.x             - thinknessCross / 2,
+                  sizeCross            + thinknessCross / 2);
 
-    return ((() && ()) || (GetAsyncKeyState ()));
+    DrawRect (cross);
+
+    return (((Inside (cross, txMousePos ())) && (txMouseButtons () % 2 == 1)) || (GetAsyncKeyState (KeyEndWork)));
     }
 
+bool AllGoneBad (char* text)
+    {
+    const char LetterBreak = '\a';
+    const char LetterPrint = '\b'
 
+    bool breakProgramm = false;
 
+    if (text [0] == LetterBreak)
+        {
+        breakProgram = true;
 
+        text += 1;
+        }
+
+    bool printMessage = false;
+
+    if (text [0] == LetterPrint)
+        {
+        printMessage = true;
+
+        text += 1;
+        }
+
+    char sorrying [LengthText] = "";
+    sprintf (sorrying, "System error (%s).\nWe're really sorry for making you buy a new computer", text);
+
+    if (printMessage) printf (sorrying);
+    else              txMessageBox (sorrying, "Windows");
+
+    if (breakProgram)
+        _txExit = true;
+    }
+
+template <typename T>
+int sgn (T a)
+    {
+    return ((a >= 0) - (a <= 0));
+    }
+
+COLORREF MulColor (COLORREF color, double gradient)
+    {
+    return (RGB(((color      ) & 0xFF) * gradient,
+                ((color >> 8 ) & 0xFF) * gradient,
+                ((color >> 16) & 0xFF) * gradient));
+    }
+
+COLORREF RandColor ()
+    {
+    return (RGB (random (256), random (256), random (256)));
+    }
+
+xy_t TurnVect (xy_t vect, double alpha)
+    {
+    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+
+    xy_t vectNew = {(vect.x * cos (alpha) - vect.y * sin (alpha)), (vect.x * sin (alpha) + vect.y * cos (alpha))};
+
+    return vectNew;
+    }
+
+xy_t TurnVect (xy_t vect, double sinus, double cosinus)
+    {
+    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+
+    return xy_t vectNew (vect.x * cosinus - vect.y * sinus), (vect.x * sinus + vect.y * cosinus);
+    }
+
+double LengthVect (xy_t vect)
+    {
+    return sqrt (vect.x * vect.x + vect.y * vect.y);
+    }
 
 /* предыдущая библиотека
 
@@ -292,7 +380,7 @@ bool Inside (rect_t rect, xy_t point)        //+
     return false;
     }
 
-bool Krest (xy_t window)
+bool Krest (xy_t window)                     //+
     {
     txSetColor (_RED, 3);
 
@@ -316,7 +404,7 @@ bool Krest (xy_t window)
     return true;
     }
 
-void Clear (COLORREF color = _BLACK)
+void Clear (COLORREF color = _BLACK)           //+
     {
     txSetFillColor (color);
     txClear ();
@@ -325,7 +413,7 @@ void Clear (COLORREF color = _BLACK)
         txSleep (100);
     }
 
-void AllGoneBad (char text [], bool breakProgram = true)
+void AllGoneBad (char text [], bool breakProgram = true)       //+
     {
     char sorrying [LongText] = "";
     sprintf (sorrying, "Системная ошибка (%s). Приносим извинения за внезапное завершение программы", text);

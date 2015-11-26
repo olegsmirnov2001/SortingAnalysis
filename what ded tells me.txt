@@ -1,0 +1,249 @@
+#define meow
+
+const char* Action = "";
+
+class ImNotAMouse
+    {
+    static int num__;
+
+    public:
+
+    ImNotAMouse ()
+        {
+        printf ("1 - Now I became a cat and ate myself %d times: %s\n", ++num__, Action);
+        }
+
+    ImNotAMouse (const ImNotAMouse& a)
+        {
+        printf ("2 - Now I became a cat and ate myself %d times: %s\n", ++num__, Action);
+        }
+
+    ~ImNotAMouse ()
+        {
+        printf ("I returned to being a mouse and ate cat who ate me %d times: %s\n", --num__, Action);
+        }
+    };
+
+int ImNotAMouse::num__ = 0;
+
+                                                //   void f()
+/*                                              //   {
+                                              //   char buffer [sizeof (ImAMouse)] = {};
+void* operator new (size_t sz, void* place)   //   ImAMouse* you = new (buffer) ImAMouse (100, 100);
+    {                                         //
+    return place;                             //   you->~IAmAMouse (meow);
+    }                                         //   }
+
+
+template <typename T>
+void vector_t::push_back (const T& what_to_place)
+{
+new (data + n * sizeof (T)) T (what_to_place);
+} */
+
+int main ()
+    {
+    printf ("\n");
+
+    Action = "Creating cats";
+    std::vector <ImNotAMouse> cats (5);
+
+    $y;
+
+    Action = "Pushing cats back";
+    cats.push_back (ImNotAMouse());
+
+    $a;
+
+    Action = "Deleting cats";
+    return 0;
+    }
+
+void a (const char* str, ...)
+    {
+    va_list arg;
+    va_start (arg, str);
+
+
+    vprintf (str, arg);
+
+    int    i = va_arg (arg, int);
+    char   c = va_arg (arg, char);
+    double i = va_arg (arg, double);
+
+
+    va_end (arg);
+
+    return;
+    }
+
+////////////////////////////////////////////
+
+class Int
+    {
+    int number;
+
+    bool Print (char text [])
+        {
+        printf ("Состояние переменной: %d :: %s\n", number, text);
+        return true;
+        }
+
+    Int () :
+        number (0)
+        {
+        Print ("Вы создали объект 1 способом");
+        }
+
+    Int (int a) :
+        number (a)
+        {
+        Print ("Вы создали объект 2 способом");
+        }
+
+    Int (Int a) :
+        number (a.number)
+        {
+        Printf ("Вы создали объект 3 способом");
+        }
+
+    const Int& operator = (int a)
+        {
+        number = a;
+        return &this;
+
+        Print ("Вы скопировали или приравняли объект 1 способом");
+        }
+
+    const Int& operator = (const Int& a)
+        {
+        number = a.number;
+        return &this;
+
+        Print ("Вы скопировали или приравняли объект 2 способом");
+        }
+
+    void operator [] (int a)
+        {
+        Print ("Вы попытались применить оператор <<[]>> для класса Int");
+        }
+
+    void operator () ()
+        {
+        Print ("Вы попытались применить оператор <<()>> для класса Int");
+        }
+
+    template <typename T>
+    void operator () (T a)
+        {
+        Print ("Вы попытались применить оператор <<()>> для класса Int");
+        }
+
+    }
+
+/////////////////////////////////////////////////
+
+#include "TXLib.h"
+#include <exception>
+#include <stdexcept>
+
+typedef char MouseLeg;
+typedef MouseLeg* Oleg;
+
+#define is
+#define please
+
+#define A_Lot_Of 18257909134637893780;
+
+#define MouseSHad(number, text, reason, cheese)  SOlegException (number, text, __LINE, __FILE__, __PRETTY_FUNCTION__, reason)
+
+SOlegException :public std::exception
+    {
+    const int   error_number;
+    const char* error_text;
+    const char* file_name;
+    const char* function_name;
+    const int   number_of_line;
+    const SOlegException* reason;
+
+    SOlegException (...)
+        {
+        ...
+        }
+
+    const char* what () const throw ()
+        {
+        return "";
+        }
+    }
+
+char* OlegMs (Oleg is mouse)
+    {
+    try
+        {
+        FILE* oleg = please fopen (mouse, "r\0leg is mouse");
+        if (!oleg) please throw 1;
+
+        try
+            {
+            throw MouseSHad (1, "I'm lazy", NULL, A_Lot_Of);
+
+            int a = 1;
+            }
+
+        catch (const char* str) {}
+
+        MouseLeg* leg_of_oleg = new MouseLeg [10];
+
+        if (please fread (leg_of_oleg, sizeof (*leg_of_oleg), 10, oleg) != 10) throw 2;
+        leg_of_oleg[9] = 0;
+
+        please fclose (oleg);
+
+        throw std::logic_error ("aaaa");
+
+        please return leg_of_oleg;
+        }
+
+    catch (SOlegException& e)
+        {
+        printf ("Error in function %s", __TX_FUNCTION__);
+
+        throw SOlegException (100, "Read failed", __FILE__, __LINE__, __PRETTY_FUNCTION__, &e);
+        }
+
+    return NULL;
+    }
+
+int main()
+    {
+    please try
+        {
+        Oleg o = OlegMs (__FILE__);
+
+        $i
+        printf ("\nOleg is a mouse because %s.\n", o);
+        $d
+
+        free (o);
+        o = NULL;
+        }
+
+    catch (int errCode)
+        {
+        $(errCode);
+        }
+
+    catch (std::exception& e)
+        {
+        printf ("ERROR: %s\n", e.what());
+        }
+
+    catch (...)
+        {
+        printf ("omg!\n");
+        }
+
+    $$$( return 0 );  //   { Dump ("return 0;"); return 0; }
+    }
+

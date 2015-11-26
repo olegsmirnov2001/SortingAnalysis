@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////¡»¡À»Œ“≈ ¿ —Ã»–ÕŒ¬¿ ŒÀ≈√¿////////////////////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <AllColors.h>
+#include "AllColors.h"
 
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////DEFINES////////////////////////////////////////////////////////////////////
@@ -16,6 +16,8 @@
 
 class vect_t
     {
+    public:
+
     double x, y;
 
     vect_t () :
@@ -28,7 +30,7 @@ class vect_t
         y (Ay)
         {}
 
-    vect_t (vect_t vect) :
+    vect_t (const vect_t& vect) :
         x (vect.x),
         y (vect.y)
         {}
@@ -38,62 +40,64 @@ class vect_t
         y (vect.y)
         {}
 
-    vect_t& operator + (vect_t vect)
+    const vect_t& operator + (const vect_t& vect)
         {
         return vect_t (x + vect.x, y + vect.y);
         }
 
-    vect_t& operator += (vect_t vect)
+    const vect_t& operator += (const vect_t& vect)
         {
         x += vect.x;
         y += vect.y;
 
-        return this;
+        return *this;
         }
 
-    vect_t& operator - (vect_t vect)
+    const vect_t& operator - (const vect_t& vect)
         {
         return vect_t (x - vect.x, y - vect.y);
         }
 
-    vect_t& operator -= (vect_t vect)
+    const vect_t& operator -= (const vect_t& vect)
         {
         x -= vect.x;
         y -= vect.y;
 
-        return this;
+        return *this;
         }
 
-    vect_t& operator * (double k)
+    const vect_t& operator * (double k)
         {
         return vect_t (x * k, y * k);
         }
 
-    vect_t& operator *= (double k)
+    const vect_t& operator *= (double k)
         {
         x *= k;
         y *= k;
 
-        return this;
+        return *this;
         }
 
-    vect_t& operator / (double k)
+    const vect_t& operator / (double k)
         {
         return vect_t (x / k, y / k);
         }
 
-    vect_t& operator /= (double k)
+    const vect_t& operator /= (double k)
         {
         x /= k;
         y /= k;
 
-        return this;
+        return *this;
         }
     };
 
 class rect_t
     {
-    double x1, x2, y1, x2;
+    public:
+
+    double x1, y1, x2, y2;
 
     rect_t () :
         x1 (0),
@@ -102,37 +106,37 @@ class rect_t
         y2 (0)
         {}
 
-    rect_t (Ax1, Ax2, Ay1, Ay2) :
+    rect_t (double Ax1, double Ax2, double Ay1, double Ay2) :
         x1 (Ax1),
         y1 (Ay1),
         x2 (Ax2),
         y2 (Ay2)
         {}
 
-    rect_t (rect_t rect) :
+    rect_t (const rect_t& rect) :
         x1 (rect.x1),
         y1 (rect.y1),
         x2 (rect.x2),
         y2 (rect.y2)
         {}
 
-    rect_ty (RECT rect) :
+    rect_t (RECT rect) :
         x1 (rect.left),
         y1 (rect.top),
         x2 (rect.right),
         y2 (rect.bottom)
         {}
 
-    rect_t& operator + (double x, double y)
+    const rect_t& operator + (vect_t vect)
         {
-        return rect_t (x1 + x, y1 + y, x2 + x, y2 + x);
+        return rect_t (x1 + vect.x, y1 + vect.y, x2 + vect.x, y2 + vect.x);
         }
 
-    rect_t& operator - (double x, double y)
+    const rect_t& operator - (vect_t vect)
         {
-        return rect_t (x1 - x, y1 - y, x2 - x, y2 - x);
+        return rect_t (x1 - vect.x, y1 - vect.y, x2 - vect.x, y2 - vect.x);
         }
-    }
+    };
 
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////// ŒÕ—“¿Õ“€//////////////////////////////////////////////////////////////////
@@ -187,7 +191,7 @@ double Dist (double x1, double x2, double y1, double y2)
 
 bool Inside (rect_t area, vect_t point)
     {
-    return ((point.x >= area.x1) && (point.x < area.y1) && (point.y >= area.y1) && (point.y < area.y2))
+    return ((point.x >= area.x1) && (point.x < area.y1) && (point.y >= area.y1) && (point.y < area.y2));
     }
 
 bool Inside (rect_t area, POINT point)
@@ -229,6 +233,11 @@ bool DrawRect (double x1, double y1, double x2, double y2)
     return DrawRect (rect_t (x1, y1, x2, y2));
     }
 
+bool DrawText (rect_t area, char* text)
+    {
+    return txDrawText (area.x1, area.y1, area.x2, area.y2, text);
+    }
+
 bool Exit (vect_t window)
     {
     const double sizeCross = 25;
@@ -248,13 +257,13 @@ bool Exit (vect_t window)
 bool AllGoneBad (char* text)
     {
     const char LetterBreak = '\a';
-    const char LetterPrint = '\b'
+    const char LetterPrint = '\b';
 
     bool breakProgramm = false;
 
     if (text [0] == LetterBreak)
         {
-        breakProgram = true;
+        breakProgramm = true;
 
         text += 1;
         }
@@ -274,7 +283,7 @@ bool AllGoneBad (char* text)
     if (printMessage) printf (sorrying);
     else              txMessageBox (sorrying, "Windows");
 
-    if (breakProgram)
+    if (breakProgramm)
         _txExit = true;
     }
 
@@ -296,26 +305,27 @@ COLORREF RandColor ()
     return (RGB (random (256), random (256), random (256)));
     }
 
-xy_t TurnVect (xy_t vect, double alpha)
+vect_t TurnVect (vect_t vect, double alpha)
     {
     double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
-    xy_t vectNew = {(vect.x * cos (alpha) - vect.y * sin (alpha)), (vect.x * sin (alpha) + vect.y * cos (alpha))};
-
-    return vectNew;
+    return vect_t ((vect.x * cos (alpha) - vect.y * sin (alpha)), (vect.x * sin (alpha) + vect.y * cos (alpha)));
     }
 
-xy_t TurnVect (xy_t vect, double sinus, double cosinus)
+vect_t TurnVect (vect_t vect, double sinus, double cosinus)
     {
     double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
-    return xy_t vectNew (vect.x * cosinus - vect.y * sinus), (vect.x * sinus + vect.y * cosinus);
+    return vect_t ((vect.x * cosinus - vect.y * sinus), (vect.x * sinus + vect.y * cosinus));
     }
 
-double LengthVect (xy_t vect)
+double LengthVect (vect_t vect)
     {
     return sqrt (vect.x * vect.x + vect.y * vect.y);
     }
+
+#include "MyArray.h"
+#include "MyButton.h"
 
 /* ÔÂ‰˚‰Û˘‡ˇ ·Ë·ÎËÓÚÂÍ‡
 

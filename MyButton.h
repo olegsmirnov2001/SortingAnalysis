@@ -8,7 +8,7 @@ class button_t
 
     rect_t pos;
 
-    char name [LengthText];
+    char* name;
 
     COLORREF colorLine;
     COLORREF colorFill;
@@ -28,7 +28,7 @@ class button_t
 
     button_t () :
         pos (),
-        name (""),
+        name ({}),
         colorLine (_NULL),
         colorFill (_NULL),
         colorName (_NULL),
@@ -39,7 +39,7 @@ class button_t
 
     button_t (rect_t Apos, char* Aname, COLORREF AcolorLine = _WHITE,
                                         COLORREF AcolorFill = _WHITE,
-                                        COLORREF AcolorName = _BLACK, HDC Apicture, int Akey = 0) :
+                                        COLORREF AcolorName = _BLACK, HDC Apicture = NULL, int Akey = 0) :
         pos (Apos),
         name (Aname),
         colorLine (AcolorLine),

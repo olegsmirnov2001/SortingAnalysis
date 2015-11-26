@@ -3,7 +3,7 @@
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T, int Sz = 0>
-class stt
+struct stt
     {
     T data [Sz];
     int sz;
@@ -20,13 +20,14 @@ class stt
 
     ~stt ();
 
-    Move (int);
+    T* Move (int);
     };
 
 template <typename T, int Sz = 0>
-class dyn
+struct dyn
     {
     T* data;
+    int sz;
 
     dyn ();
 
@@ -38,41 +39,46 @@ class dyn
             data [number] = T ();
         }
 
-    ~stt ()
+    ~dyn ()
         {
         delete (data);
         }
 
-    Move (int szNew)
+    T* Move (int szNew)
         {
-        data = (T*) realloc (data, (T*) * szNew);
+        data = (T*) realloc (data, sizeof (*data) * szNew);
         for (int number = sz; number < szNew; number++)
             data [number] = T ();
 
         sz = szNew;
+
+        return data;
         }
+
+    private:
+
+    dyn (const dyn <T, Sz> &);
+    dyn <T, Sz> & operator = (const dyn <T, Sz> &);
     };
 
-template <class Type, typename T, int Sz = 0>
-class array_t : Type <T, Sz>
+template <template <typename, int> class Type, typename T, int Sz = 0>
+class array_t : private Type <T, Sz>
     {
+    public:
+
     array_t () :
-        Type ()
+        Type <T, Sz> ()
         {}
 
     array_t (int szNew) :
-        Type (szNew)
-        {}
-
-    ~array_t () :
-        ~Type ()
+        Type <T, Sz> (szNew)
         {}
 
     T& operator [] (int num)
         {
-        if (((num < 0) || (num >= sz)))
+        if (((num < 0) || (num >= this->sz)))
             AllGoneBad ("You made a mistake in array using");
 
-        return data [num];
+        return this->data [num];
         }
     };

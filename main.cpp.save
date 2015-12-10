@@ -1,22 +1,129 @@
 #include "TXLib.h"
 #include "MyLib.h"
 
+struct abstr_mol_t
+    {
+    vect_t pos;
+
+    abstr_mol_t () :
+        pos (random (0, Window.x), random (0, Window.y))
+        {}
+
+    virtual void Draw () = 0;
+    };
+
+class fat_mol_t : public abstr_mol_t
+    {
+    double r;
+
+    fat_mol_t () :
+        r (random (20, 30))
+        {}
+    
+    virtual void Draw ()
+        {
+        SetColors (RandColor ());
+        txCircle (pos.x, pos.y, r);
+        }
+    };
+
+class thn_mol_t : public abstr_mol_t
+    {
+    COLORREF color;
+
+    thn_mol_t () :
+        color (ran)
+
+    virtual void Draw ()
+        {
+        SetColors (color);
+        txCircle (pos.x, pos.y, 5);
+        }
+    };
+
+class big_mol_t : public abstr_mol_t
+    {
+    char text [LengthText];
+    vect_t sizeText;
+
+    virtual void Draw ()
+        {
+        txSelectFont ("Comic Sans MS", sizeText.x, sizeText.y, FW_BOLD);
+        txDrawText (pos.x - 100, pos.y - 10, pos.x + 100, pos.y + 10, text);
+        }
+    };
+
+class mol_manager_t
+    {
+    array_t <dyn, abstr_mol_t*> mols;
+    int sz;
+
+    public:
+
+    mol_manager_t () :
+        mols (0),
+        sz (0)
+        {}
+
+    bool AddMol (abstr_mol_t* mol)
+        {
+        mols.Move (sz + 1);
+
+        mols [sz] = mol;
+
+        sz++;
+
+        printf ("Сейчас съедено %d котов\n", sz);
+
+        return true;
+        }
+
+    bool DrawAll ()
+        {
+        for (int number = 0; number < sz; number++)
+            mols [number]->Draw ();
+
+        return true;
+        }
+    };
+
 int main ()
     {
     CreateMyWindow ();
 
+    mol_manager_t manager;
+
     while (!Exit ())
         {
-        array_t <stt, double, 30> bbb;
+        if (GetAsyncKeyState ('1'))
+            manager.AddMol (new thn_mol_t);
 
-        array_t <dyn, int> aaa (20);
-        aaa.Move (30);
+        if (GetAsyncKeyState ('2'))
+            manager.AddMol (new fat_mol_t);
 
-        matrix_t <int, 10, 15> mmm;
+        if (GetAsyncKeyState ('3'))
+            manager.AddMol (new big_mol_t);
 
-        txSleep (10);
+        manager.DrawAll ();
+
+        txSleep (1);
+
+        Clear ();
         }
 
     _txExit = true;
     return 0;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+

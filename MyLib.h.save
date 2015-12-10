@@ -42,7 +42,7 @@ class vect_t
         y (vect.y)
         {}
 
-    /*
+    /* I don't need these operators so I don't want to use them
     const vect_t& operator += (const vect_t& vect)
         {
         x += vect.x;
@@ -77,7 +77,7 @@ class vect_t
     */
     };
 
-/* I don't need thee
+/*     I don't need these operators so I don't want to use them
 const vect_t& operator + (const vect_t& vect1, const vect_t& vect2);
 const vect_t& operator - (const vect_t& vect1, const vect_t& vect2);
 const vect_t& operator * (const vect_t& vect1, const vect_t& vect2);
@@ -102,7 +102,7 @@ const vect_t& operator / (const vect_t& vect1, const vect_t& vect2)
     {
     return vect_t (vect1.x / vect2.x, vect1.y / vect2.y);
     };
-*/  
+*/
 
 class rect_t
     {
@@ -321,7 +321,7 @@ bool AllGoneBad (char* text)
     char sorrying [LengthText] = "";
     sprintf (sorrying, "System error (%s).\nWe're really sorry for making you buy a new computer", text);
 
-    if (printMessage) printf ((char*) sorrying);
+    if (printMessage) printf (sorrying);
     else              txMessageBox (sorrying, "Windows");
 
     if (breakProgramm)
@@ -334,6 +334,18 @@ template <typename T>
 int sgn (T a)
     {
     return ((a >= 0) - (a <= 0));
+    }
+
+template <typename T, int Sz1, int Sz2>
+bool DrawMatrix (const matrix_t<T, Sz1, Sz2> & matrix)
+    {
+    for (int number1 = 0; number1 < matrix.sz1; number++)
+        {
+        for (int number2 = 0; number2 < matrix.sz2; number2++)
+            {
+            printf ()
+            }
+        }
     }
 
 COLORREF MulColor (COLORREF color, double gradient)
@@ -350,14 +362,14 @@ COLORREF RandColor ()
 
 vect_t TurnVect (vect_t vect, double alpha)
     {
-    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+    //double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
     return vect_t ((vect.x * cos (alpha) - vect.y * sin (alpha)), (vect.x * sin (alpha) + vect.y * cos (alpha)));
     }
 
 vect_t TurnVect (vect_t vect, double sinus, double cosinus)
     {
-    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+    //double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
     return vect_t ((vect.x * cosinus - vect.y * sinus), (vect.x * sinus + vect.y * cosinus));
     }
@@ -546,12 +558,12 @@ double LengthVect (xy_t vect)
     {
     return sqrt (vect.x * vect.x + vect.y * vect.y);
     }
+*/
 
 //{/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////ß ÊÎÒ///////////////////////////////////////////////////////////////////////
 //}//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-*/
 
 
 

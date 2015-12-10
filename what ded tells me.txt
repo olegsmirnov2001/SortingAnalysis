@@ -247,3 +247,156 @@ int main()
     $$$( return 0 );  //   { Dump ("return 0;"); return 0; }
     }
 
+/////////////////////////////
+
+#include "TXLib.h"
+#include "MyLib.h"
+
+struct abstr_mol_t
+    {
+    vect_t pos;
+
+    abstr_mol_t () :
+        pos (random (0, Window.x), random (0, Window.y))
+        {}
+
+    virtual void Draw () = 0;
+    };
+
+class fat_mol_t : public abstr_mol_t
+    {
+    double r;
+
+    public:
+
+    fat_mol_t () :
+        r (random (20, 30))
+        {}
+
+    virtual void Draw ()
+        {
+        SetColors (_WHITE);
+        txCircle (pos.x, pos.y, r);
+        }
+    };
+
+class thn_mol_t : public abstr_mol_t
+    {
+    COLORREF color;
+
+    public:
+
+    thn_mol_t () :
+        color (RandColor ())
+        {}
+
+    virtual void Draw ()
+        {
+        SetColors (color);
+        txCircle (pos.x, pos.y, 5);
+        }
+    };
+
+class big_mol_t : public abstr_mol_t
+    {
+    char* text;
+    vect_t sizeText;
+
+    public:
+
+    big_mol_t () :
+        text ("I am Oleg and I ate a mouse"),
+        sizeText (random (50, 60), random (20, 24))
+        {}
+
+    virtual void Draw ()
+        {
+        txSelectFont ("Comic Sans MS", sizeText.x, sizeText.y, FW_BOLD);
+        txSetColor (_RED);
+        txDrawText (pos.x - 1000, pos.y - 100, pos.x + 1000, pos.y + 100, text);
+        }
+    };
+
+class mol_manager_t
+    {
+    array_t <dyn, abstr_mol_t*> mols;
+    int sz;
+
+    public:
+
+    mol_manager_t () :
+        mols (0),
+        sz (0)
+        {}
+
+    bool AddMol (abstr_mol_t* mol)
+        {
+        mols.Move (sz + 1);
+
+        mols [sz] = mol;
+
+        sz++;
+
+        printf ("Сейчас съедено %d котов\n", sz);
+
+        return true;
+        }
+
+    bool DrawAll ()
+        {
+        for (int number = 0; number < sz; number++)
+            mols [number]->Draw ();
+
+        return true;
+        }
+    };
+
+int main ()
+    {
+    CreateMyWindow ();
+
+    mol_manager_t manager;
+
+    while (!Exit ())
+        {
+        //txBegin ();
+
+        if (GetAsyncKeyState ('1'))
+            for (int number = 0; number < 1000000; number++)
+                manager.AddMol (new thn_mol_t);
+
+        if (GetAsyncKeyState ('2'))
+            for (int number = 0; number < 1000; number++)
+                manager.AddMol (new fat_mol_t);
+
+        if (GetAsyncKeyState ('3'))
+            for (int number = 0; number < 1000; number++)
+                manager.AddMol (new big_mol_t);
+
+        manager.DrawAll ();
+
+        //txEnd ();
+
+        Sleep (1);
+
+        Clear ();
+        }
+
+    _txExit = true;
+    return 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

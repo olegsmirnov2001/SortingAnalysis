@@ -335,7 +335,19 @@ int sgn (T a)
     {
     return ((a >= 0) - (a <= 0));
     }
-
+/*
+template <typename T, int Sz1, int Sz2>
+bool DrawMatrix (const matrix_t<T, Sz1, Sz2> & matrix)
+    {
+    for (int number1 = 0; number1 < matrix.sz1; number++)
+        {
+        for (int number2 = 0; number2 < matrix.sz2; number2++)
+            {
+            //printf ()
+            }
+        }
+    }
+*/
 COLORREF MulColor (COLORREF color, double gradient)
     {
     return (RGB(((color      ) & 0xFF) * gradient,
@@ -546,12 +558,12 @@ double LengthVect (xy_t vect)
     {
     return sqrt (vect.x * vect.x + vect.y * vect.y);
     }
+*/
 
 //{/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////ß ÊÎÒ///////////////////////////////////////////////////////////////////////
 //}//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-*/
 
 
 

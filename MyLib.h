@@ -42,6 +42,7 @@ class vect_t
         y (vect.y)
         {}
 
+    /* I don't need these operators so I don't want to use them
     const vect_t& operator += (const vect_t& vect)
         {
         x += vect.x;
@@ -73,12 +74,14 @@ class vect_t
 
         return *this;
         }
+    */
     };
 
-//const vect_t& operator + (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator - (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator * (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator / (const vect_t& vect1, const vect_t& vect2);
+/*     I don't need these operators so I don't want to use them
+const vect_t& operator + (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator - (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator * (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator / (const vect_t& vect1, const vect_t& vect2);
 
 const vect_t& operator + (const vect_t& vect1, const vect_t& vect2)
     {
@@ -99,6 +102,7 @@ const vect_t& operator / (const vect_t& vect1, const vect_t& vect2)
     {
     return vect_t (vect1.x / vect2.x, vect1.y / vect2.y);
     };
+*/
 
 class rect_t
     {
@@ -133,16 +137,6 @@ class rect_t
         x2 (rect.right),
         y2 (rect.bottom)
         {}
-
-    const rect_t& operator + (vect_t vect)
-        {
-        return rect_t (x1 + vect.x, y1 + vect.y, x2 + vect.x, y2 + vect.x);
-        }
-
-    const rect_t& operator - (vect_t vect)
-        {
-        return rect_t (x1 - vect.x, y1 - vect.y, x2 - vect.x, y2 - vect.x);
-        }
     };
 
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +186,7 @@ vect_t   TurnVect (vect_t vect, double alpha);
 vect_t   TurnVect (vect_t vect, double sinus, double cosinus);
 double   LengthVect (vect_t vect);
 
-bool CreateMyWindow (vect_t window = Window)
+bool CreateMyWindow (vect_t window)
     {
     _txWindowStyle &= ~ WS_CAPTION;
     txTextCursor (false);
@@ -204,7 +198,7 @@ bool CreateMyWindow (vect_t window = Window)
     return true;
     }
 
-bool Clear (COLORREF color = _BLACK)
+bool Clear (COLORREF color)
     {
     txSetFillColor (color);
     txClear ();
@@ -284,7 +278,7 @@ bool DrawText (rect_t area, char* text)
     return txDrawText (area.x1, area.y1, area.x2, area.y2, text);
     }
 
-bool Exit (vect_t window = Window)
+bool Exit (vect_t window)
     {
     const double sizeCross = 25;
     const double thinknessCross = 3;
@@ -332,6 +326,8 @@ bool AllGoneBad (char* text)
 
     if (breakProgramm)
         _txExit = true;
+
+    return true;
     }
 
 template <typename T>
@@ -354,14 +350,14 @@ COLORREF RandColor ()
 
 vect_t TurnVect (vect_t vect, double alpha)
     {
-    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+    //double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
     return vect_t ((vect.x * cos (alpha) - vect.y * sin (alpha)), (vect.x * sin (alpha) + vect.y * cos (alpha)));
     }
 
 vect_t TurnVect (vect_t vect, double sinus, double cosinus)
     {
-    double r = sqrt (vect.x * vect.x + vect.y * vect.y);
+    //double r = sqrt (vect.x * vect.x + vect.y * vect.y);
 
     return vect_t ((vect.x * cosinus - vect.y * sinus), (vect.x * sinus + vect.y * cosinus));
     }

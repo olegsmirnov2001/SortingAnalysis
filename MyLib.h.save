@@ -42,6 +42,7 @@ class vect_t
         y (vect.y)
         {}
 
+    /*
     const vect_t& operator += (const vect_t& vect)
         {
         x += vect.x;
@@ -73,12 +74,14 @@ class vect_t
 
         return *this;
         }
+    */
     };
 
-//const vect_t& operator + (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator - (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator * (const vect_t& vect1, const vect_t& vect2);
-//const vect_t& operator / (const vect_t& vect1, const vect_t& vect2);
+/* I don't need thee
+const vect_t& operator + (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator - (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator * (const vect_t& vect1, const vect_t& vect2);
+const vect_t& operator / (const vect_t& vect1, const vect_t& vect2);
 
 const vect_t& operator + (const vect_t& vect1, const vect_t& vect2)
     {
@@ -99,6 +102,7 @@ const vect_t& operator / (const vect_t& vect1, const vect_t& vect2)
     {
     return vect_t (vect1.x / vect2.x, vect1.y / vect2.y);
     };
+*/  
 
 class rect_t
     {
@@ -133,16 +137,6 @@ class rect_t
         x2 (rect.right),
         y2 (rect.bottom)
         {}
-
-    const rect_t& operator + (vect_t vect)
-        {
-        return rect_t (x1 + vect.x, y1 + vect.y, x2 + vect.x, y2 + vect.x);
-        }
-
-    const rect_t& operator - (vect_t vect)
-        {
-        return rect_t (x1 - vect.x, y1 - vect.y, x2 - vect.x, y2 - vect.x);
-        }
     };
 
 //{///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,30 +163,30 @@ const KEY KeyEndWork = VK_ESCAPE;
 ///////////////////////////////////////////////////////////‘”Õ ÷»»////////////////////////////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool CreateMyWindow (vect_t window = Window)
-bool Clear (COLORREF color = _BLACK)
-double Dist (vect_t point1, vect_t point2)
-double Dist (double x1, double x2, double y1, double y2)
-bool Inside (rect_t area, vect_t point)
-bool Inside (rect_t area, POINT point)
-bool SetColors (COLORREF color)
-bool SetColors (COLORREF colorLines, COLORREF colorFill)
-bool SetColors (double thinknessLines, COLORREF colorLines, COLORREF colorFill)
-bool DrawRect (rect_t rect)
-bool DrawRect (double x1, double y1, double x2, double y2)
-bool DrawDiag (rect_t rect)
-bool DrawText (rect_t area, char* text)
-bool Exit (vect_t window = Window)
-bool AllGoneBad (char* text)
+bool     CreateMyWindow (vect_t window = Window);
+bool     Clear (COLORREF color = _BLACK);
+double   Dist (vect_t point1, vect_t point2);
+double   Dist (double x1, double x2, double y1, double y2);
+bool     Inside (rect_t area, vect_t point);
+bool     Inside (rect_t area, POINT point);
+bool     SetColors (COLORREF color);
+bool     SetColors (COLORREF colorLines, COLORREF colorFill);
+bool     SetColors (double thinknessLines, COLORREF colorLines, COLORREF colorFill);
+bool     DrawRect (rect_t rect);
+bool     DrawRect (double x1, double y1, double x2, double y2);
+bool     DrawDiag (rect_t rect);
+bool     DrawText (rect_t area, char* text);
+bool     Exit (vect_t window = Window);
+bool     AllGoneBad (char* text);
 template <typename T>
-int sgn (T a)
-COLORREF MulColor (COLORREF color, double gradient)
-COLORREF RandColor ()
-vect_t TurnVect (vect_t vect, double alpha);
-vect_t TurnVect (vect_t vect, double sinus, double cosinus);
-double LengthVect (vect_t vect);
+int      sgn (T a);
+COLORREF MulColor (COLORREF color, double gradient);
+COLORREF RandColor ();
+vect_t   TurnVect (vect_t vect, double alpha);
+vect_t   TurnVect (vect_t vect, double sinus, double cosinus);
+double   LengthVect (vect_t vect);
 
-bool CreateMyWindow (vect_t window = Window)
+bool CreateMyWindow (vect_t window)
     {
     _txWindowStyle &= ~ WS_CAPTION;
     txTextCursor (false);
@@ -204,7 +198,7 @@ bool CreateMyWindow (vect_t window = Window)
     return true;
     }
 
-bool Clear (COLORREF color = _BLACK)
+bool Clear (COLORREF color)
     {
     txSetFillColor (color);
     txClear ();
@@ -284,7 +278,7 @@ bool DrawText (rect_t area, char* text)
     return txDrawText (area.x1, area.y1, area.x2, area.y2, text);
     }
 
-bool Exit (vect_t window = Window)
+bool Exit (vect_t window)
     {
     const double sizeCross = 25;
     const double thinknessCross = 3;
@@ -327,11 +321,13 @@ bool AllGoneBad (char* text)
     char sorrying [LengthText] = "";
     sprintf (sorrying, "System error (%s).\nWe're really sorry for making you buy a new computer", text);
 
-    if (printMessage) printf (sorrying);
+    if (printMessage) printf ((char*) sorrying);
     else              txMessageBox (sorrying, "Windows");
 
     if (breakProgramm)
         _txExit = true;
+
+    return true;
     }
 
 template <typename T>

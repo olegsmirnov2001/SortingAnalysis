@@ -94,7 +94,7 @@ class array_t : public Type <T, Sz>
 //
 
 template <typename T, int Sz1, int Sz2>
-class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1> {};
+class matrix_t : private array_t <stt, array_t <stt, T, Sz2>, Sz1> {};
 
 
 

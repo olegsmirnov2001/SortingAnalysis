@@ -7,7 +7,9 @@ int main ()
 
     while (!Exit ())
         {
-        matrix_t <int, 10, 15> matr;
+        array_t <dyn, char> Arr (10);
+
+        Arr.Move (200);
 
         txSleep (10);
         }

@@ -107,6 +107,16 @@ class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1>
         {}
     };
 
+template <int Sz1, int Sz2>
+bool PrintfMatrix (matrix_t <int, Sz1, Sz2> matr)
+    {
+    for (int number1 = 0; number1 < Sz1; number1++)
+        for (int number2 = 0; number2 < Sz2; number2++, printf ("\n"))
+            printf ("%d ", matr [number1][number2]);
+
+    return true;
+    }
+
 
 
 

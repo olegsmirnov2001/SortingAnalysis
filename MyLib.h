@@ -186,6 +186,8 @@ vect_t   TurnVect (vect_t vect, double alpha);
 vect_t   TurnVect (vect_t vect, double sinus, double cosinus);
 double   LengthVect (vect_t vect);
 
+//
+
 bool CreateMyWindow (vect_t window)
     {
     _txWindowStyle &= ~ WS_CAPTION;
@@ -335,19 +337,7 @@ int sgn (T a)
     {
     return ((a >= 0) - (a <= 0));
     }
-/*
-template <typename T, int Sz1, int Sz2>
-bool DrawMatrix (const matrix_t<T, Sz1, Sz2> & matrix)
-    {
-    for (int number1 = 0; number1 < matrix.sz1; number++)
-        {
-        for (int number2 = 0; number2 < matrix.sz2; number2++)
-            {
-            //printf ()
-            }
-        }
-    }
-*/
+
 COLORREF MulColor (COLORREF color, double gradient)
     {
     return (RGB(((color      ) & 0xFF) * gradient,
@@ -379,8 +369,20 @@ double LengthVect (vect_t vect)
     return sqrt (vect.x * vect.x + vect.y * vect.y);
     }
 
+//
+
 #include "MyArray.h"
 #include "MyButton.h"
+
+template <int Sz1, int Sz2>
+bool PrintfMatrix (matrix_t <int, Sz1, Sz2> matr)
+    {
+    for (int number1 = 0; number1 < Sz1; number1++)
+        for (int number2 = 0; number2 < Sz2; number2++, printf ("\n"))
+            printf ("%d ", matr [number1][number2]);
+
+    return true;
+    }
 
 /* предыдущая библиотека
 

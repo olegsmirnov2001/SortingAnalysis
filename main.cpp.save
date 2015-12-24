@@ -4,8 +4,11 @@
 int main ()
     {
     CreateMyWindow ();
-    
-    matrix_t <int, sz1, sz2> matr;
+
+    int Sz1 = 0, Sz2 = 0;
+    scanf ("%d %d\n", &Sz1, &Sz2);
+
+    matrix_t <int, 0, 0> matr;
 
     for (int number1 = 0; number1 < Sz1; number1++)
         {

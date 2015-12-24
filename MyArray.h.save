@@ -19,7 +19,7 @@ struct stt
         }
 
     stt (int);
-
+    
     ~stt () {};
 
     T* Move (int);
@@ -95,7 +95,7 @@ class array_t : public Type <T, Sz>
 ////////////////////////////////////////////////////////ÊËÀÑÑ ÌÀÒĞÈÖÛ (ÌÀÑÑÈÂ ÌÀÑÑÈÂÎÂ)///////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename T, int Sz1, int Sz2>
+template <typename T, int Sz1 = 0, int Sz2 = 0>
 class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1>
     {
     int sz1, sz2;
@@ -106,10 +106,10 @@ class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1>
         sz2 (Sz2)
         {}
     };
-    
+
 template <>
 template <typename T>
-class matrix_t <T, 0, 0> : public array_t <dyn, array_t <dyn, T, Sz2>, Sz1>
+class matrix_t <T, 0, 0> : public array_t <dyn, array_t <dyn, T>>
     {
     int sz1, sz2;
 
@@ -118,11 +118,17 @@ class matrix_t <T, 0, 0> : public array_t <dyn, array_t <dyn, T, Sz2>, Sz1>
         sz1 (Sz1),
         sz2 (Sz2)
         {}
-    };
+    }
 
+template <int Sz1, int Sz2>
+bool PrintfMatrix (matrix_t <int, Sz1, Sz2> matr)
+    {
+    for (int number1 = 0; number1 < Sz1; number1++)
+        for (int number2 = 0; number2 < Sz2; number2++, printf ("\n"))
+            printf ("%d ", matr [number1][number2]);
 
-    
-
+    return true;
+    }
 
 
 

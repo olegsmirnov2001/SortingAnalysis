@@ -374,16 +374,6 @@ double LengthVect (vect_t vect)
 #include "MyArray.h"
 #include "MyButton.h"
 
-template <int Sz1, int Sz2>
-bool PrintfMatrix (matrix_t <int, Sz1, Sz2> matr)
-    {
-    for (int number1 = 0; number1 < Sz1; number1++)
-        for (int number2 = 0; number2 < Sz2; number2++, printf ("\n"))
-            printf ("%d ", matr [number1][number2]);
-
-    return true;
-    }
-
 /* предыдущая библиотека
 
 //{/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

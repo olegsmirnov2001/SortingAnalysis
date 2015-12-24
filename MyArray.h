@@ -95,7 +95,7 @@ class array_t : public Type <T, Sz>
 //////////////////////////////////////////////////////// À¿—— Ã¿“–»÷€ (Ã¿——»¬ Ã¿——»¬Œ¬)///////////////////////////////////////////////
 //}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename T, int Sz1, int Sz2>
+template <typename T, int Sz1 = 0, int Sz2 = 0>
 class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1>
     {
     int sz1, sz2;
@@ -106,6 +106,19 @@ class matrix_t : public array_t <stt, array_t <stt, T, Sz2>, Sz1>
         sz2 (Sz2)
         {}
     };
+
+template <>
+template <typename T>
+class matrix_t <T, 0, 0> : public array_t <dyn, array_t <dyn, T>>
+    {
+    int sz1, sz2;
+
+    matrix_t () :
+        array_t <stt, array_t <stt, T, Sz2>, Sz1> (),
+        sz1 (Sz1),
+        sz2 (Sz2)
+        {}
+    }
 
 template <int Sz1, int Sz2>
 bool PrintfMatrix (matrix_t <int, Sz1, Sz2> matr)

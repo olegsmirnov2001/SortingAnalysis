@@ -8,7 +8,9 @@ int main ()
     int Sz1 = 0, Sz2 = 0;
     scanf ("%d %d\n", &Sz1, &Sz2);
 
-    matrix_t <int, 0, 0> matr;
+    matrix_t <int> matr (5, 5);
+
+
 
     for (int number1 = 0; number1 < Sz1; number1++)
         {
